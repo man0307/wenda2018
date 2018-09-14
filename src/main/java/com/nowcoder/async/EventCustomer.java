@@ -48,6 +48,8 @@ public class EventCustomer implements InitializingBean,ApplicationContextAware {
                           if(event.equals(key)){
                               continue;
                           }
+
+
                           //JSON的反序列化
                           EventModel eventModel= JSON.parseObject(event,EventModel.class);
                           if(!config.containsKey(eventModel.getType())){
