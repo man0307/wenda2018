@@ -112,7 +112,7 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = {"/regLogin"})
+    @RequestMapping(value = {"/reglogin"})
     public String userIndex(
             Model model,
             @RequestParam(value = "next",required = false) String next
