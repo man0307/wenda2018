@@ -46,8 +46,8 @@ public class AddQuestionHandler implements EventHandler {
     @Override
     public void doHandler(EventModel eventModel) {
         try {
-           System.out.println(seacherService.indexQuestion(eventModel.getEntityId()
-                   , eventModel.getValue("title"), eventModel.getValue("content")));
+           seacherService.indexQuestion(eventModel.getEntityId()
+                   , eventModel.getValue("title"), eventModel.getValue("content"));
         } catch (SolrServerException e) {
             e.printStackTrace();
         } catch (IOException e) {

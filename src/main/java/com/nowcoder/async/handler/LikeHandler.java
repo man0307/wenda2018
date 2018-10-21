@@ -44,7 +44,6 @@ public class LikeHandler implements EventHandler {
 //        if(hostHolder.get()==null) System.out.println("fuck");
         message.setContent("恭喜" + userService.selectUserById(eventModel.getActorId()).getName() +
                 "给你点赞了/n详情请见http://localhost:8080/question/" + eventModel.getValue("questionId"));
-        System.out.println(JSONObject.toJSON(message).toString());
         messageService.insert(message);
     }
 
