@@ -39,7 +39,6 @@ public class FollowHandler implements EventHandler {
         message.setConversationId(message.getConversationId());
         message.setHasRead(0);
         message.setCreatedDate(new Date());
-//        if(hostHolder.get()==null) System.out.println("fuck");
         if (eventModel.getType() == EventType.FOLLOW) {
             if (eventModel.getEntityType() == EntityType.ENTITY_QUESTION) {
                 message.setContent(userService.selectUserById(eventModel.getActorId()).getName() +
@@ -57,7 +56,6 @@ public class FollowHandler implements EventHandler {
                         "取消关注你");
             }
         }
-        System.out.println(JSONObject.toJSON(message).toString());
         messageService.insert(message);
 
     }

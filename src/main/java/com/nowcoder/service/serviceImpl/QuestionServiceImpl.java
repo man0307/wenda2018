@@ -25,8 +25,6 @@ public class QuestionServiceImpl implements QuestionService {
         question.setContent(HtmlUtils.htmlEscape(question.getContent()));
         question.setTitle(sensitiveService.filer(question.getTitle()));
         question.setContent(sensitiveService.filer(question.getContent()));
-        System.out.println("title:"+question.getTitle());
-        System.out.println("content:"+question.getContent());
         int res=questionMapper.insert(question);
         return res>0?res:0;
     }

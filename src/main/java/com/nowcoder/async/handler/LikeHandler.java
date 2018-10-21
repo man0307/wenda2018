@@ -41,7 +41,6 @@ public class LikeHandler implements EventHandler {
         message.setConversationId(message.getConversationId());
         message.setHasRead(0);
         message.setCreatedDate(new Date());
-//        if(hostHolder.get()==null) System.out.println("fuck");
         message.setContent("恭喜" + userService.selectUserById(eventModel.getActorId()).getName() +
                 "给你点赞了/n详情请见http://localhost:8080/question/" + eventModel.getValue("questionId"));
         messageService.insert(message);

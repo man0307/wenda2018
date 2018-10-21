@@ -29,7 +29,6 @@ public class FollowServiceImpl implements FollowService {
         //关注者所关注的实体+1
         transaction.zadd(followeeKey,date.getTime(),String.valueOf(entityId));
         List<Object> list=jedisAdapter.exec(transaction,jedis);
-        System.out.println(jedisAdapter.zcard(followerKey));
         return list.size()==2&&(Long)list.get(0)>=0&&(Long)list.get(1)>=0;
     }
 

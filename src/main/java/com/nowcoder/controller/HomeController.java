@@ -113,7 +113,6 @@ public class HomeController {
 //            question.setTitle(String.format("题目{%d}", i));
 //            question.setContent(String.format("Balaababalalalal 简介 %d", i));
 //            questionMapper.insert(question);
-//            System.out.println("插入"+user+" "+question);
 //        }
 //        return "sucess";
 //    }

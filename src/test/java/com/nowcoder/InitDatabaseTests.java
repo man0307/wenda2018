@@ -38,9 +38,6 @@ public class InitDatabaseTests {
             SqlSession sqlSession=sqlSessionFactory.openSession();
             //执行sql语句
             UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
-            System.out.println(userMapper.selectByExample(null));
-
-
         } catch (IOException e) {
 
         }
