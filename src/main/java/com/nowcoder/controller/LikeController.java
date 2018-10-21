@@ -30,41 +30,42 @@ public class LikeController {
 
     @Autowired
     CommentService commentService;
+
     @RequestMapping(value = "/like")
     @ResponseBody
-    public String like(@RequestParam(value = "commentId")Integer commentId){
+    public String like(@RequestParam(value = "commentId") Integer commentId) {
         try {
-            if(hostHolder.get()==null){
+            if (hostHolder.get() == null) {
                 return WendaUtil.getJSONString(999);
             }
-            User user=hostHolder.get();
-            Comment comment=commentService.selectByPrimaryKey(commentId);
+            User user = hostHolder.get();
+            Comment comment = commentService.selectByPrimaryKey(commentId);
             //添加异步的点赞发送邮件功能
             eventProducer.fireEvent(new EventModel(EventType.LIKE).
                     setActorId(hostHolder.get().getId()).setEntityId(commentId).
                     setEntityType(EntityType.ENTITY_COMMENT).setEntityOwnerId(comment.getUserId()).
-                    setValue("questionId",String.valueOf(comment.getEntityId())));
+                    setValue("questionId", String.valueOf(comment.getEntityId())));
 
-            Long likeCount=likeService.like(user.getId(),comment.getEntityId(),comment.getEntityType());
-            return WendaUtil.getJSONString(0,String.valueOf(likeCount));
-        }catch (Exception e){
-            return WendaUtil.getJSONString(1,"未知错误");
+            Long likeCount = likeService.like(user.getId(), comment.getEntityId(), comment.getEntityType());
+            return WendaUtil.getJSONString(0, String.valueOf(likeCount));
+        } catch (Exception e) {
+            return WendaUtil.getJSONString(1, "未知错误");
         }
     }
 
     @RequestMapping(value = "/dislike")
     @ResponseBody
-    public String dislike(@RequestParam(value = "commentId")Integer commentId){
+    public String dislike(@RequestParam(value = "commentId") Integer commentId) {
         try {
-            if(hostHolder.get()==null){
+            if (hostHolder.get() == null) {
                 return WendaUtil.getJSONString(999);
             }
-            User user=hostHolder.get();
-            Comment comment=commentService.selectByPrimaryKey(commentId);
-            Long likeCount=likeService.dislike(user.getId(),comment.getEntityId(),comment.getEntityType());
-            return WendaUtil.getJSONString(0,String.valueOf(likeCount));
-        }catch (Exception e){
-            return WendaUtil.getJSONString(1,"未知错误");
+            User user = hostHolder.get();
+            Comment comment = commentService.selectByPrimaryKey(commentId);
+            Long likeCount = likeService.dislike(user.getId(), comment.getEntityId(), comment.getEntityType());
+            return WendaUtil.getJSONString(0, String.valueOf(likeCount));
+        } catch (Exception e) {
+            return WendaUtil.getJSONString(1, "未知错误");
         }
     }
 }

@@ -46,8 +46,11 @@ public class QuestionController {
     public String addQuestion(@RequestParam(value = "title") String title,
                               @RequestParam(value = "content") String content) {
         Question question = new Question();
-        if (hostHolder.get() == null) return WendaUtil.getJSONString(999);
-        else question.setUserId(hostHolder.get().getId());
+        if (hostHolder.get() == null) {
+            return WendaUtil.getJSONString(999);
+        } else {
+            question.setUserId(hostHolder.get().getId());
+        }
         question.setTitle(title);
         question.setContent(content);
         question.setCreatedDate(new Date());
@@ -58,7 +61,7 @@ public class QuestionController {
         if (code > 0) {
             eventProducer.fireEvent(new EventModel(EventType.ADD_QUESTION).
                     setActorId(question.getUserId()).setEntityId(question.getId()).setEntityType(EntityType.ENTITY_QUESTION)
-            .setValue("title",question.getTitle()).setValue("content",question.getContent()));
+                    .setValue("title", question.getTitle()).setValue("content", question.getContent()));
             return WendaUtil.getJSONString(0);
         }
         //1代表添加失败
@@ -71,16 +74,18 @@ public class QuestionController {
         model.addAttribute("question", question);
         User user = userService.selectUserById(question.getUserId());
         model.addAttribute("user", user);
-        if (hostHolder.get() != null)
+        if (hostHolder.get() != null) {
             model.addAttribute("followed", followService.isFollower(hostHolder.get().getId(), qid, EntityType.ENTITY_QUESTION));
-
+        }
         //得到followUsers
         Integer len = Integer.valueOf(String.valueOf(followService.getFollowerCount(qid, EntityType.ENTITY_QUESTION)));
         List<Integer> ids = followService.getFollowers(qid, EntityType.ENTITY_QUESTION, 0, len);
         List<User> followUsers = new ArrayList<>();
         for (int id : ids) {
             User u = userService.selectUserById(id);
-            if (u != null) followUsers.add(u);
+            if (u != null) {
+                followUsers.add(u);
+            }
         }
 
         model.addAttribute("followUsers", followUsers);

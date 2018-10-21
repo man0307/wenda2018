@@ -67,9 +67,9 @@ public class MessageController {
         List<ViewObject> messages = new ArrayList<>();
         for (int i = 0; i < messageList.size(); i++) {
             ViewObject vo = new ViewObject();
-            Message message=messageList.get(i);
+            Message message = messageList.get(i);
             //既然显示到了详情页 那么肯定就会变成已经读过的消息
-            if(message.getHasRead()==0){
+            if (message.getHasRead() == 0) {
                 message.setHasRead(1);
                 messageService.updateByPrimaryKey(message);
             }
@@ -83,19 +83,21 @@ public class MessageController {
 
     @RequestMapping(value = "/msg/list")
     public String addQuestion(Model model) {
-        if(hostHolder.get()==null) return "redirect:/regLogin";
-        User user=hostHolder.get();
-        List<Message> messageList=messageService.getConversationList(user.getId(),0,10);
-        List<ViewObject> conversations=new ArrayList<>();
-        for(int i=0;i<messageList.size();i++){
-            Message message=messageList.get(i);
-            ViewObject vo=new ViewObject();
-            vo.set("message",message);
-            vo.set("user",userService.selectUserById(message.getFromId()==user.getId()?message.getToId():message.getFromId()));
-            vo.set("unread",messageService.getConversationUnreadCount(user.getId(),message.getConversationId()));
+        if (hostHolder.get() == null) {
+            return "redirect:/regLogin";
+        }
+        User user = hostHolder.get();
+        List<Message> messageList = messageService.getConversationList(user.getId(), 0, 10);
+        List<ViewObject> conversations = new ArrayList<>();
+        for (int i = 0; i < messageList.size(); i++) {
+            Message message = messageList.get(i);
+            ViewObject vo = new ViewObject();
+            vo.set("message", message);
+            vo.set("user", userService.selectUserById(message.getFromId().equals(user.getId()) ? message.getToId() : message.getFromId()));
+            vo.set("unread", messageService.getConversationUnreadCount(user.getId(), message.getConversationId()));
             conversations.add(vo);
         }
-        model.addAttribute("conversations",conversations);
+        model.addAttribute("conversations", conversations);
         return "letter";
     }
 }

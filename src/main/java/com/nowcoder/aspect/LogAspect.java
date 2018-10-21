@@ -11,9 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * Created by nowcoder on 2016/7/10.
+ * Overwrite by manchaoyang on 2018/10/21.
  */
-//Component是表示不明确是什么类型 就用Component注解
 @Aspect
 @Component
 public class LogAspect {
@@ -32,6 +31,6 @@ public class LogAspect {
 
     @After("execution(* com.nowcoder.controller.*Controller.*(..))")
     public void afterMethod() {
-        logger.info("after method" + new Date());
+        logger.info("after method " + new Date());
     }
 }

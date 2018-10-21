@@ -48,7 +48,9 @@ public class FeedController {
             List<String> ids = jedisAdapter.lrange(JedisKeyUtil.getTimelineKey(hostHolder.get().getId()), 0, 10);
             for (String id : ids) {
                 Feed feed = feedService.selectByPrimaryKey(Integer.valueOf(id));
-                if (feed != null) feeds.add(feed);
+                if (feed != null) {
+                    feeds.add(feed);
+                }
             }
         }
         model.addAttribute("feeds", feeds);

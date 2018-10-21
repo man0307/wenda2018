@@ -63,14 +63,14 @@ public class HomeController {
     public String index(Model model) {
 
         model.addAttribute("vos", getQuestions(null, 0, 10));
-        model.addAttribute("limit",10);
+        model.addAttribute("limit", 10);
         return "index";
     }
 
     @RequestMapping(value = {"/moreQuestion/{limit}"})
-    public String moreQuestion(Model model, @PathVariable("limit")int limit) {
-        model.addAttribute("vos", getQuestions(null, 0, limit+10));
-        model.addAttribute("limit",limit+10);
+    public String moreQuestion(Model model, @PathVariable("limit") int limit) {
+        model.addAttribute("vos", getQuestions(null, 0, limit + 10));
+        model.addAttribute("limit", limit + 10);
         return "index";
     }
 

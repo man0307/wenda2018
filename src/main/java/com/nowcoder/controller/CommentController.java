@@ -38,11 +38,13 @@ public class CommentController {
     EventProducer eventProducer;
 
     @RequestMapping(value = "/addComment")
-    public String addComment(Model model, @RequestParam(value = "questionId")Integer questionId,
-                             @RequestParam(value = "content") String content){
+    public String addComment(Model model, @RequestParam(value = "questionId") Integer questionId,
+                             @RequestParam(value = "content") String content) {
         //未登陆不能添加评论
-        if(hostHolder.get()==null) return "login";
-        Comment comment=new Comment();
+        if (hostHolder.get() == null) {
+            return "login";
+        }
+        Comment comment = new Comment();
         comment.setContent(content);
         comment.setEntityId(questionId);
         comment.setCreatedDate(new Date());
@@ -51,9 +53,9 @@ public class CommentController {
         commentService.insert(comment);
 
         //增加评论后要更新 评论数
-        Question question=questionService.selectByQuestionId(questionId);
+        Question question = questionService.selectByQuestionId(questionId);
         //example的用法 根据commentExample来查询指定EntityId的评论
-        CommentExample commentExample=new CommentExample();
+        CommentExample commentExample = new CommentExample();
         CommentExample.Criteria criteria = commentExample.createCriteria(); //构造自定义查询条件
         criteria.andEntityIdEqualTo(questionId);
         criteria.andEntityTypeEqualTo(EntityType.ENTITY_QUESTION);
@@ -64,6 +66,6 @@ public class CommentController {
                 setEntityType(EntityType.ENTITY_COMMENT).setEntityId(comment.getId()).setEntityOwnerId(question.getId()));
         //产生一步事件 推拉模式生成timeline
         questionService.updateByPrimaryKeyWithBLOBs(question);
-        return "redirect:/question/"+questionId;
+        return "redirect:/question/" + questionId;
     }
 }

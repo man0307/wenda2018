@@ -21,5 +21,19 @@
       <user-name>root</user-name>
       <introspection-schemas>*:library</introspection-schemas>
     </data-source>
+    <data-source name="@localhost" uuid="75bd33eb-6105-44fc-8c09-b6eba9ffcf8e">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+      <user-name>root</user-name>
+      <ssh-properties>
+        <enabled>true</enabled>
+        <proxy-host>120.78.172.126</proxy-host>
+        <proxy-port>22</proxy-port>
+        <secret-storage>master_key</secret-storage>
+        <user>root</user>
+        <use-password>true</use-password>
+      </ssh-properties>
+    </data-source>
   </component>
 </project>

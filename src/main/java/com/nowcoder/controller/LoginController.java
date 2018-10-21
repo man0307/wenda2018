@@ -115,7 +115,7 @@ public class LoginController {
     @RequestMapping(value = {"/reglogin"})
     public String userIndex(
             Model model,
-            @RequestParam(value = "next",required = false) String next
+            @RequestParam(value = "next", required = false) String next
     ) {
 
         model.addAttribute("next", next);

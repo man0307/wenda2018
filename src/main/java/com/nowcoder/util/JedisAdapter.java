@@ -20,69 +20,74 @@ import java.util.Set;
 
 //
 @Service
-public class JedisAdapter implements InitializingBean{
+public class JedisAdapter implements InitializingBean {
 
-    private  JedisPool pool;
+    private JedisPool pool;
+
     //初始化redis连接池
-    public JedisAdapter(){
-        pool=new JedisPool("redis://localhost:6379/9");
+    public JedisAdapter() {
+        pool = new JedisPool("120.78.172.126", 6379);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-           pool=new JedisPool("redis://localhost:6379/9");
+        pool = new JedisPool("120.78.172.126", 6379);
     }
+
     //点赞点踩的功能用set即可
-    public void sadd(String key,String value){
-       Jedis jedis=null;
-         try{
-             jedis=pool.getResource();
-            jedis.sadd(key,value);
-        }catch (Exception e){
+    public void sadd(String key, String value) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            jedis.sadd(key, value);
+        } catch (Exception e) {
             //logger
-        }finally {
-            if(jedis!=null){
+        } finally {
+            if (jedis != null) {
                 jedis.close();
             }
         }
-   }
-    public Long srem(String key,String value){
-        Jedis jedis=null;
-        try{
-            jedis=pool.getResource();
-            return jedis.srem(key,value);
-        }catch (Exception e){
-            //logger
-        }finally {
-            if(jedis!=null){
-                jedis.close();
-            }
-        }
-        return 0l;
     }
-    public Long scard(String key){
-        Jedis jedis=null;
-        try{
-            jedis=pool.getResource();
+
+    public Long srem(String key, String value) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.srem(key, value);
+        } catch (Exception e) {
+            //logger
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return 0L;
+    }
+
+    public Long scard(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
             return jedis.scard(key);
-        }catch (Exception e){
+        } catch (Exception e) {
             //logger
-        }finally {
-            if(jedis!=null){
+        } finally {
+            if (jedis != null) {
                 jedis.close();
             }
         }
-        return 0l;
+        return 0L;
     }
-    public Boolean sismember(String key,String value){
-        Jedis jedis=null;
-        try{
-            jedis=pool.getResource();
-            return jedis.sismember(key,value);
-        }catch (Exception e){
+
+    public Boolean sismember(String key, String value) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.sismember(key, value);
+        } catch (Exception e) {
             //logger
-        }finally {
-            if(jedis!=null){
+        } finally {
+            if (jedis != null) {
                 jedis.close();
             }
         }
@@ -91,29 +96,29 @@ public class JedisAdapter implements InitializingBean{
 
     //redis实现异步队列的接口
 
-    public void lpush(String key,String value){
-        Jedis jedis=null;
-        try{
-            jedis=pool.getResource();
-            jedis.lpush(key,value);
-        }catch (Exception e){
+    public void lpush(String key, String value) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            jedis.lpush(key, value);
+        } catch (Exception e) {
             //logger
-        }finally {
-            if(jedis!=null){
+        } finally {
+            if (jedis != null) {
                 jedis.close();
             }
         }
     }
 
-    public List<String> lrange(String key,Integer beg,Integer end){
-        Jedis jedis=null;
-        try{
-            jedis=pool.getResource();
-            return jedis.lrange(key,beg,end);
-        }catch (Exception e){
+    public List<String> lrange(String key, Integer beg, Integer end) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.lrange(key, beg, end);
+        } catch (Exception e) {
             //logger
-        }finally {
-            if(jedis!=null){
+        } finally {
+            if (jedis != null) {
                 jedis.close();
             }
         }
@@ -123,15 +128,15 @@ public class JedisAdapter implements InitializingBean{
     //redis的brpop作用：如果队列中没有元素就等待timeout时间长度然后
     // 返回一个假如在指定时间内没有任何元素被弹出，则返回一个 nil 和等待时长。
     // 反之，返回一个含有两个元素的列表，第一个元素是被弹出元素所属的 key ，第二个元素是被弹出元素的值。
-    public List<String> brpop(Integer timeout, String key){
-        Jedis jedis=null;
-        try{
-            jedis=pool.getResource();
-           return jedis.brpop(timeout,key);
-        }catch (Exception e){
+    public List<String> brpop(Integer timeout, String key) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.brpop(timeout, key);
+        } catch (Exception e) {
             //logger
-        }finally {
-            if(jedis!=null){
+        } finally {
+            if (jedis != null) {
                 jedis.close();
             }
         }
@@ -277,14 +282,16 @@ public class JedisAdapter implements InitializingBean{
 //    }
 
     // /练习的代码
-    public static void print(int index,Object obj){
-        System.out.println(String.format("%d %s",index,obj.toString()));
+    public static void print(int index, Object obj) {
+        System.out.println(String.format("%d %s", index, obj.toString()));
     }
+
     public static void main(String[] agrs) throws InterruptedException {
-        Jedis jedis=new Jedis("redis://localhost:6379/9");
+        Jedis jedis = new Jedis("120.78.172.126", 6379);
 //        EVENTQUEUE
-        for(int i=0;i<9;i++){
-        System.out.println(jedis.lpop("TIMELINE:41"));}
+        for (int i = 0; i < 9; i++) {
+            System.out.println(jedis.lpop("TIMELINE:41"));
+        }
 ////        jedis.set("name","wang");
 //        print(1,jedis.get("name"));
 //        //设置延迟数据库自动删除 一般用于验证码之类的
@@ -374,6 +381,7 @@ public class JedisAdapter implements InitializingBean{
 
 
     }
+
     public long zadd(String key, double score, String value) {
         Jedis jedis = null;
         try {

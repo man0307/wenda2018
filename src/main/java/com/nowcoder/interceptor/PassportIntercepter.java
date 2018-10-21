@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @Component
-public class PassportIntercepter implements HandlerInterceptor{
+public class PassportIntercepter implements HandlerInterceptor {
     @Autowired
     LoginTicketMapper loginTicketMapper;
 
@@ -28,30 +28,36 @@ public class PassportIntercepter implements HandlerInterceptor{
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String ticket=null;
-        LoginTicket loginTicket=null;
-        for (Cookie cookie:request.getCookies()){
-            if(cookie.getName().equals("ticket")){
-                ticket=cookie.getValue();
-               break;
+        String ticket = null;
+        LoginTicket loginTicket = null;
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("ticket")) {
+                ticket = cookie.getValue();
+                break;
             }
         }
-        if(ticket==null) return true;
-        else loginTicket=loginTicketMapper.selectByTicket(ticket);
-        if(loginTicket==null) return true;
-        if(loginTicket.getStatus()!=0||loginTicket.getExpired().before(new Date())){
+        if (ticket == null) {
+            return true;
+        } else {
+            loginTicket = loginTicketMapper.selectByTicket(ticket);
+        }
+        if (loginTicket == null) {
             return true;
         }
-        User user=userMapper.selectByPrimaryKey(loginTicket.getUserId());
+        if (loginTicket.getStatus() != 0 || loginTicket.getExpired().before(new Date())) {
+            return true;
+        }
+        User user = userMapper.selectByPrimaryKey(loginTicket.getUserId());
         hostHolder.set(user);
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-                //页面渲染之前加上user
-        if(modelAndView!=null)
-                modelAndView.addObject("user",hostHolder.get());
+        //页面渲染之前加上user
+        if (modelAndView != null) {
+            modelAndView.addObject("user", hostHolder.get());
+        }
     }
 
     @Override

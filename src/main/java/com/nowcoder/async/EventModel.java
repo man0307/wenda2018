@@ -9,21 +9,23 @@ public class EventModel {
     private Integer entityType;
     private Integer entityId;
     private Integer entityOwnerId;
-    private Map<String,String> exts=new HashMap<>();
+    private Map<String, String> exts = new HashMap<>();
     private EventType type;
 
-    public EventModel(){}
+    public EventModel() {
 
-    public EventModel(EventType type){
-        this.type=type;
     }
 
-    public EventModel setValue(String key,String value){
-        exts.put(key,value);
+    public EventModel(EventType type) {
+        this.type = type;
+    }
+
+    public EventModel setValue(String key, String value) {
+        exts.put(key, value);
         return this;
     }
 
-    public String getValue(String key){
+    public String getValue(String key) {
         return exts.get(key);
     }
 
@@ -81,7 +83,6 @@ public class EventModel {
         this.exts = exts;
         return this;
     }
-
 
 
 }

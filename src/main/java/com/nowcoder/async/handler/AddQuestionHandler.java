@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.*;
 
-//不注册spring就无法进行类型解析
 @Component
 public class AddQuestionHandler implements EventHandler {
     private List<EventType> eventTypes;

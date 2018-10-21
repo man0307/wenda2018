@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @Component
-public class LoginRequredIntercepter implements HandlerInterceptor{
+public class LoginRequredIntercepter implements HandlerInterceptor {
     @Autowired
     LoginTicketMapper loginTicketMapper;
 
@@ -25,17 +25,18 @@ public class LoginRequredIntercepter implements HandlerInterceptor{
 
     @Autowired
     UserMapper userMapper;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-         if(hostHolder.get()==null){
-             response.sendRedirect("/regLogin?next="+request.getRequestURI());
-         }
-         return true;
+        if (hostHolder.get() == null) {
+            response.sendRedirect("/regLogin?next=" + request.getRequestURI());
+        }
+        return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-                //页面渲染之前加上user
+        //页面渲染之前加上user
 
     }
 

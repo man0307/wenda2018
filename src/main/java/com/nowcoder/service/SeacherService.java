@@ -17,24 +17,28 @@ import java.util.Map;
 
 @Service
 public class SeacherService {
-    private static final String SOLR_URL = "http://localhost:80/solr/collection";
-//http://localhost/solr/#/collection1/query
+    private static final String SOLR_URL = "http://120.78.172.126:8983/solr/core1";
+
     private HttpSolrClient client = new HttpSolrClient.Builder(SOLR_URL).build();
     private static final String QUESTION_TITLE_FIELD = "question_title";
     private static final String QUESTION_CONTENT_FIELD = "question_content";
 
     public List<Question> searchQuestion(String keyword, int offset, int count, String hlPre, String hlPos) throws IOException, SolrServerException {
         List<Question> questionList = new ArrayList<>();
-        SolrQuery solrQuery = new SolrQuery(keyword);
+        SolrQuery solrQuery = new SolrQuery();
+        solrQuery.setQuery(keyword);
+        solrQuery.set("df", QUESTION_TITLE_FIELD);
         solrQuery.setStart(offset);
         solrQuery.setRows(count);
         solrQuery.setHighlight(true);
         solrQuery.setHighlightSimplePre(hlPre);
         solrQuery.setHighlightSimplePost(hlPos);
         solrQuery.set("hl.fl", QUESTION_CONTENT_FIELD + "," + QUESTION_TITLE_FIELD);
-
-        QueryResponse queryResponse = client.query(solrQuery);
-        for(Map.Entry<String,Map<String,List<String>>> entry:queryResponse.getHighlighting().entrySet()){
+//        QueryResponse queryResponse = client.query(solrQuery);
+        Map<String, Map<String, List<String>>> queryResponseMap = client.query(solrQuery).getHighlighting();
+        solrQuery.set("df",QUESTION_CONTENT_FIELD);
+        queryResponseMap.putAll(client.query(solrQuery).getHighlighting());
+        for(Map.Entry<String,Map<String,List<String>>> entry:queryResponseMap.entrySet()){
             Question question=new Question();
             question.setId(Integer.parseInt(entry.getKey()));
             if(entry.getValue().containsKey(QUESTION_CONTENT_FIELD)){
@@ -63,5 +67,9 @@ public class SeacherService {
         doc.setField(QUESTION_CONTENT_FIELD,content);
         UpdateResponse response=client.add(doc,1000);
         return response!=null&&response.getStatus()==0;
+    }
+
+    public static void main(String[] args) throws IOException, SolrServerException {
+        System.out.println(new SeacherService().indexQuestion(131234,"测试远程连接","欧式一个测试"));
     }
 }
