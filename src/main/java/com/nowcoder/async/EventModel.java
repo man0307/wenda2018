@@ -1,15 +1,40 @@
 package com.nowcoder.async;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventModel {
+public class EventModel implements Serializable {
 
+    private int serialVersionUID = 1;
+
+    /**
+     * 事件動作接收者ID
+     */
     private Integer actorId;
+
+    /**
+     * 实体类型ID
+     */
     private Integer entityType;
+
+    /**
+     * 实体ID
+     */
     private Integer entityId;
+
+    /**
+     * 实体所有者ID
+     */
     private Integer entityOwnerId;
+
+    /**
+     * 额外信息map
+     */
     private Map<String, String> exts = new HashMap<>();
+    /**
+     * 事件类型
+     */
     private EventType type;
 
     public EventModel() {
