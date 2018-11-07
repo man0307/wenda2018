@@ -24,6 +24,14 @@
 	</properties>
 
 	<dependencies>
+
+		<!--消息队列模块-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+			<version>1.5.2.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
@@ -122,7 +130,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.nowcoder.WendaApplication</mainClass>
+							<mainClass>com.batman.WendaApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
