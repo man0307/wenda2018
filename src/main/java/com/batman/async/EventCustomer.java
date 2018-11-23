@@ -18,6 +18,9 @@ import java.util.concurrent.*;
 
 /**
  * Overwrite by manchaoyang on 2018/10/21.
+ *
+ * 2018/11/23
+ * 弃用
  */
 @Service
 public class EventCustomer implements InitializingBean, ApplicationContextAware {
