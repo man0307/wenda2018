@@ -37,6 +37,12 @@ public class EventModel implements Serializable {
      */
     private EventType type;
 
+    /**
+     * 该消息的重发次数
+     */
+    private Integer resendCount = 0;
+
+
     public EventModel() {
 
     }
@@ -48,6 +54,14 @@ public class EventModel implements Serializable {
     public EventModel setValue(String key, String value) {
         exts.put(key, value);
         return this;
+    }
+
+    public Integer getResendCount() {
+        return resendCount;
+    }
+
+    public void setResendCount(Integer resendCount) {
+        this.resendCount = resendCount;
     }
 
     public String getValue(String key) {
@@ -109,5 +123,17 @@ public class EventModel implements Serializable {
         return this;
     }
 
-
+    @Override
+    public String toString() {
+        return "EventModel{" +
+                "serialVersionUID=" + serialVersionUID +
+                ", actorId=" + actorId +
+                ", entityType=" + entityType +
+                ", entityId=" + entityId +
+                ", entityOwnerId=" + entityOwnerId +
+                ", exts=" + exts +
+                ", type=" + type +
+                ", resendCount=" + resendCount +
+                '}';
+    }
 }

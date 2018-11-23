@@ -1,7 +1,6 @@
 package com.batman.async;
 
 import com.alibaba.fastjson.JSON;
-import com.batman.mq.MsgProducer;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.batman.util.JedisAdapter;
 import com.batman.util.JedisKeyUtil;
@@ -24,9 +23,6 @@ import java.util.concurrent.*;
 public class EventCustomer implements InitializingBean, ApplicationContextAware {
 
     private static Logger logger = Logger.getLogger(EventCustomer.class);
-
-    @Autowired
-    private MsgProducer msgProducer;
 
     private static ThreadFactory eventCustomerThreadFactory = new ThreadFactoryBuilder().setNameFormat("event-customer-pool-%d").build();
     private static ExecutorService customerExecutorService = new ThreadPoolExecutor(4, 10,

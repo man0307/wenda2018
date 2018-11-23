@@ -1,5 +1,6 @@
 package com.batman.mq;
 
+import com.batman.config.RabbitMQConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -7,7 +8,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@RabbitListener(queues = RabbitConfig.QUEUE_A)
+@RabbitListener(queues = RabbitMQConfig.QUEUE_ADD_QUESTION)
 public class MsgReceiver {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

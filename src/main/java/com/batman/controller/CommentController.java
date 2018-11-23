@@ -58,9 +58,9 @@ public class CommentController {
         question.setCommentCount(commentService.countByExample(commentExample));
 
         eventProducer.fireEvent(new EventModel(EventType.COMMENT)
-                       .setActorId(hostHolder.get().getId())
-                       .setEntityType(EntityType.ENTITY_COMMENT).setEntityId(comment.getId())
-                       .setEntityOwnerId(question.getId()));
+                .setActorId(hostHolder.get().getId())
+                .setEntityType(EntityType.ENTITY_COMMENT).setEntityId(comment.getId())
+                .setEntityOwnerId(question.getId()));
         //产生一步事件 推拉模式生成timeline
         questionService.updateByPrimaryKeyWithBLOBs(question);
         return "redirect:/question/" + questionId;
