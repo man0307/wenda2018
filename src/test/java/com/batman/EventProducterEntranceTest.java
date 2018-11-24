@@ -1,8 +1,9 @@
 package com.batman;
 
+
 import com.batman.async.EventModel;
 import com.batman.async.EventType;
-import com.batman.mq.producer.AddQuestionEvenProducer;
+import com.batman.mq.producer.EventProducerEntrance;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +13,16 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = WendaApplication.class)
 @WebAppConfiguration
-public class AddQuestionEvenProducerTest {
-
+public class EventProducterEntranceTest {
     @Autowired
-    private AddQuestionEvenProducer addQuestionEvenProducer;
+    private EventProducerEntrance eventProducerEntrance;
 
     @Test
-    public void Test() {
+    public void Method1(){
         EventModel eventModel = new EventModel();
         eventModel.setResendCount(11);
         eventModel.setActorId(1212);
@@ -35,18 +33,7 @@ public class AddQuestionEvenProducerTest {
         hash.put("参数1", "值1");
         hash.put("参数2", "值2");
         eventModel.setExts(hash);
-        addQuestionEvenProducer.sendEvent(eventModel);
-        while (true) {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Test
-    public void Method1() throws InterruptedException {
+        eventProducerEntrance.fireEvent(eventModel);
         while (true) {
             try {
                 Thread.sleep(10000);

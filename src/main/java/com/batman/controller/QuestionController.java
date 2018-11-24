@@ -1,9 +1,9 @@
 package com.batman.controller;
 
 import com.batman.async.EventModel;
-import com.batman.async.EventProducer;
 import com.batman.async.EventType;
 import com.batman.model.*;
+import com.batman.mq.producer.EventProducerEntrance;
 import com.batman.service.*;
 import com.batman.util.WendaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ public class QuestionController {
 
     @Autowired
     CommentService commentService;
+
     @Autowired
     QuestionService questionService;
 
@@ -39,7 +40,8 @@ public class QuestionController {
     UserService userService;
 
     @Autowired
-    EventProducer eventProducer;
+    EventProducerEntrance eventProducerEntrance;
+
 
     @RequestMapping(value = "/question/add")
     @ResponseBody
@@ -59,7 +61,7 @@ public class QuestionController {
         int code = questionService.addQuestion(question);
         //0代表添加成功
         if (code > 0) {
-            eventProducer.fireEvent(new EventModel(EventType.ADD_QUESTION).
+            eventProducerEntrance.fireEvent(new EventModel(EventType.ADD_QUESTION).
                     setActorId(question.getUserId()).setEntityId(question.getId()).setEntityType(EntityType.ENTITY_QUESTION)
                     .setValue("title", question.getTitle()).setValue("content", question.getContent()));
             return WendaUtil.getJSONString(0);
