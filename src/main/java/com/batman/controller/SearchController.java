@@ -5,6 +5,7 @@ import com.batman.model.EntityType;
 import com.batman.model.Question;
 import com.batman.model.User;
 import com.batman.model.ViewObject;
+import com.batman.mq.producer.EventProducerEntrance;
 import com.batman.service.*;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class SearchController {
     UserService userService;
 
     @Autowired
-    EventProducer eventProducer;
+    EventProducerEntrance eventProducerEntrance;
 
     //使用solr的Search方法 因为每次都要开启solr很不方便 所以增添一个使用like的方法
     @RequestMapping(value = "/search_solr")

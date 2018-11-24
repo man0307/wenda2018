@@ -27,10 +27,12 @@ public class AddQuestionEvenProducerTest {
     public void Test() {
         EventModel eventModel = new EventModel();
         eventModel.setResendCount(11);
-        eventModel.setActorId(1212);
+        eventModel.setActorId(40);
         eventModel.setEntityId(1433434);
         eventModel.setType(EventType.ADD_QUESTION);
         eventModel.setResendCount(2);
+        eventModel.setEntityType(33);
+        eventModel.setEntityOwnerId(41);
         Map<String, String> hash = new HashMap<>();
         hash.put("参数1", "值1");
         hash.put("参数2", "值2");

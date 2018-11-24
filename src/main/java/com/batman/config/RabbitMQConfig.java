@@ -114,49 +114,49 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(queueAddQuestion()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_ADD_QUESTION);
     }
 
-    @Bean
-    public Queue queueFeedEvent() {
-        return new Queue(QUEUE_FEED_EVENT, true);
-    }
-
-
-    @Bean
-    public Binding bindingFeedEvent() {
-        return BindingBuilder.bind(queueFeedEvent()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_FEED_EVENT);
-    }
-
-    @Bean
-    public Queue queueFollowEvent() {
-        return new Queue(QUEUE_FOLLOW_EVENT, true);
-    }
-
-
-    @Bean
-    public Binding bindingFollowEvent() {
-        return BindingBuilder.bind(queueFollowEvent()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_FOLLOW_EVENT);
-    }
-
-    @Bean
-    public Queue queueLikeEvent() {
-        return new Queue(QUEUE_LIKE_EVENT, true);
-    }
-
-
-    @Bean
-    public Binding bindingLikeEvent() {
-        return BindingBuilder.bind(queueLikeEvent()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_LIKE_EVENT);
-    }
-
-    @Bean
-    public Queue queueLoginExceptionEvent() {
-        return new Queue(QUEUE_FOLLOW_EVENT, true);
-    }
-
-
-    @Bean
-    public Binding bindingLoginExceptionEvent() {
-        return BindingBuilder.bind(queueLoginExceptionEvent()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_LOGIN_EXCEPTION);
-    }
+//    @Bean
+//    public Queue queueFeedEvent() {
+//        return new Queue(QUEUE_FEED_EVENT, true);
+//    }
+//
+//
+//    @Bean
+//    public Binding bindingFeedEvent() {
+//        return BindingBuilder.bind(queueFeedEvent()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_FEED_EVENT);
+//    }
+//
+//    @Bean
+//    public Queue queueFollowEvent() {
+//        return new Queue(QUEUE_FOLLOW_EVENT, true);
+//    }
+//
+//
+//    @Bean
+//    public Binding bindingFollowEvent() {
+//        return BindingBuilder.bind(queueFollowEvent()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_FOLLOW_EVENT);
+//    }
+//
+//    @Bean
+//    public Queue queueLikeEvent() {
+//        return new Queue(QUEUE_LIKE_EVENT, true);
+//    }
+//
+//
+//    @Bean
+//    public Binding bindingLikeEvent() {
+//        return BindingBuilder.bind(queueLikeEvent()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_LIKE_EVENT);
+//    }
+//
+//    @Bean
+//    public Queue queueLoginExceptionEvent() {
+//        return new Queue(QUEUE_FOLLOW_EVENT, true);
+//    }
+//
+//
+//    @Bean
+//    public Binding bindingLoginExceptionEvent() {
+//        return BindingBuilder.bind(queueLoginExceptionEvent()).to(exchangeAllEvent()).with(RabbitMQConfig.ROUTINGKEY_LOGIN_EXCEPTION);
+//    }
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

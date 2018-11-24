@@ -4,6 +4,7 @@ import com.batman.async.EventModel;
 import com.batman.async.EventProducer;
 import com.batman.async.EventType;
 import com.batman.model.*;
+import com.batman.mq.producer.EventProducerEntrance;
 import com.batman.service.*;
 import com.batman.util.WendaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class FollowController {
     QuestionService questionService;
 
     @Autowired
-    EventProducer eventProducer;
+    EventProducerEntrance eventProducerEntrance;
 
     @Autowired
     CommentService commentService;
@@ -50,7 +51,7 @@ public class FollowController {
         User user = hostHolder.get();
         if (followService.follow(user.getId(), userId, EntityType.ENTITY_USER)) {
             //关注成功 异步队列发送邮件
-            eventProducer.fireEvent(new EventModel(EventType.FOLLOW).setActorId(user.getId())
+            eventProducerEntrance.fireEvent(new EventModel(EventType.FOLLOW).setActorId(user.getId())
                     .setEntityId(userId).setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
             //JSON返回当前用户关注的所有人数
             return WendaUtil.getJSONString(0, String.valueOf(followService.getFolloweeCount(user.getId(), EntityType.ENTITY_USER)));
@@ -70,7 +71,7 @@ public class FollowController {
         User user = hostHolder.get();
         if (followService.unFollow(user.getId(), userId, EntityType.ENTITY_USER)) {
             //关注成功 异步队列发送邮件
-            eventProducer.fireEvent(new EventModel(EventType.UNFOLLOW).setActorId(user.getId())
+            eventProducerEntrance.fireEvent(new EventModel(EventType.UNFOLLOW).setActorId(user.getId())
                     .setEntityId(userId).setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
             //JSON返回当前用户关注的所有人数
             return WendaUtil.getJSONString(0, String.valueOf(followService.getFolloweeCount(user.getId(), EntityType.ENTITY_USER)));
@@ -101,7 +102,7 @@ public class FollowController {
         info.put("id", user.getId());
         info.put("count", followService.getFollowerCount(questionId, EntityType.ENTITY_QUESTION));
 
-        eventProducer.fireEvent(new EventModel(EventType.FOLLOW).setActorId(user.getId())
+        eventProducerEntrance.fireEvent(new EventModel(EventType.FOLLOW).setActorId(user.getId())
                 .setEntityId(questionId).setEntityType(EntityType.ENTITY_QUESTION).setEntityOwnerId(questionId));
 
         return WendaUtil.getJSONString(ret ? 0 : 1, info);
@@ -130,7 +131,7 @@ public class FollowController {
             info.put("id", user.getId());
             info.put("count", followService.getFollowerCount(questionId, EntityType.ENTITY_QUESTION));
             //关注成功 异步队列发送邮件
-            eventProducer.fireEvent(new EventModel(EventType.UNFOLLOW).setActorId(user.getId())
+            eventProducerEntrance.fireEvent(new EventModel(EventType.UNFOLLOW).setActorId(user.getId())
                     .setEntityId(questionId).setEntityType(EntityType.ENTITY_QUESTION).setEntityOwnerId(questionId));
             return WendaUtil.getJSONString(0, info);
         }
@@ -171,7 +172,9 @@ public class FollowController {
         for (Integer id : userIds) {
             User user = userService.selectUserById(id);
             //不存在这个用户的id就跳过
-            if (user == null) continue;
+            if (user == null) {
+                continue;
+            }
             ViewObject vo = new ViewObject();
             vo.set("user", user);
             CommentExample commentExample = new CommentExample();

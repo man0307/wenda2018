@@ -1,7 +1,10 @@
 package com.batman.controller;
 
+import com.batman.async.EventModel;
 import com.batman.async.EventProducer;
+import com.batman.async.EventType;
 import com.batman.model.HostHolder;
+import com.batman.mq.producer.EventProducerEntrance;
 import com.batman.service.TicketService;
 import com.batman.service.UserService;
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +33,7 @@ public class LoginController {
     HostHolder hostHolder;
 
     @Autowired
-    EventProducer eventProducer;
+    EventProducerEntrance eventProducerEntrance;
 
     @RequestMapping(value = {"/reg"})
     public String register(Model model,
@@ -71,7 +74,7 @@ public class LoginController {
                             @RequestParam(value = "next") String next) {
 
         Map<String, String> map = userService.login(username, password);
-//        eventProducer.fireEvent(new EventModel(EventType.LOGIN).setValue("username",username).setValue("email","530231559@qq.com")
+//        eventProducerEntrance.fireEvent(new EventModel(EventType.LOGIN).setValue("username",username).setValue("email","530231559@qq.com")
 //                .setActorId(Integer.valueOf(map.get("userId"))));
 
         try {

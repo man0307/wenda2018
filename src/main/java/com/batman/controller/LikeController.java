@@ -7,6 +7,7 @@ import com.batman.model.Comment;
 import com.batman.model.EntityType;
 import com.batman.model.HostHolder;
 import com.batman.model.User;
+import com.batman.mq.producer.EventProducerEntrance;
 import com.batman.service.CommentService;
 import com.batman.service.LikeService;
 import com.batman.util.WendaUtil;
@@ -25,7 +26,7 @@ public class LikeController {
     HostHolder hostHolder;
 
     @Autowired
-    EventProducer eventProducer;
+    EventProducerEntrance eventProducerEntrance;
 
     @Autowired
     CommentService commentService;
@@ -40,7 +41,7 @@ public class LikeController {
             User user = hostHolder.get();
             Comment comment = commentService.selectByPrimaryKey(commentId);
             //添加异步的点赞发送邮件功能
-            eventProducer.fireEvent(new EventModel(EventType.LIKE).
+            eventProducerEntrance.fireEvent(new EventModel(EventType.LIKE).
                     setActorId(hostHolder.get().getId()).setEntityId(commentId).
                     setEntityType(EntityType.ENTITY_COMMENT).setEntityOwnerId(comment.getUserId()).
                     setValue("questionId", String.valueOf(comment.getEntityId())));

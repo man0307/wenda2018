@@ -4,6 +4,7 @@ import com.batman.async.EventModel;
 import com.batman.async.EventProducer;
 import com.batman.async.EventType;
 import com.batman.model.*;
+import com.batman.mq.producer.EventProducerEntrance;
 import com.batman.service.CommentService;
 import com.batman.service.QuestionService;
 import com.batman.service.UserService;
@@ -31,7 +32,7 @@ public class CommentController {
     QuestionService questionService;
 
     @Autowired
-    EventProducer eventProducer;
+    EventProducerEntrance eventProducerEntrance;
 
     @RequestMapping(value = "/addComment")
     public String addComment(Model model, @RequestParam(value = "questionId") Integer questionId,
@@ -57,7 +58,7 @@ public class CommentController {
         criteria.andEntityTypeEqualTo(EntityType.ENTITY_QUESTION);
         question.setCommentCount(commentService.countByExample(commentExample));
 
-        eventProducer.fireEvent(new EventModel(EventType.COMMENT)
+        eventProducerEntrance.fireEvent(new EventModel(EventType.COMMENT)
                 .setActorId(hostHolder.get().getId())
                 .setEntityType(EntityType.ENTITY_COMMENT).setEntityId(comment.getId())
                 .setEntityOwnerId(question.getId()));
