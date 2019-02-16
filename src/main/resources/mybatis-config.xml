@@ -18,7 +18,7 @@
     </settings>
     <!--<typeAliases>-->
         <!--&lt;!&ndash; 指定扫描包 会把包中的所有类都设置别名 别名的名称就是类名 大小写不敏感 &ndash;&gt;-->
-        <!--<package name="com.nowcoder.model"/>-->
+        <!--<package name="com.batmanodel"/>-->
     <!--</typeAliases>-->
 
     <!-- Continue going here -->

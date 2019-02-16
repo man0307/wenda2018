@@ -14,6 +14,9 @@
     <link rel="search" type="application/opensearchdescription+xml" href="https://nowcoder.com/static/search.xml" title="问答">
     <link rel="stylesheet" type="text/css" href="/styles/bootstrap.min.css">
     <style>
+    body {
+        background-image: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540876003470&di=a894a413600da182048111c28e294d3d&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fback_pic%2Fqk%2Fback_origin_pic%2F00%2F03%2F62%2Faee00cdd4b4106f7bd7b761e85219bce.jpg);
+    }
     .zm-item-answer-author-info a.collapse {margin-top: 0}
     </style>
 
@@ -63,7 +66,7 @@
         <div role="search" id="zh-top-search" class="zu-top-search">
 
 
-            <form method="GET" action="/search" id="zh-top-search-form" class="zu-top-search-form">
+            <form method="GET" action="/search_solr" id="zh-top-search-form" class="zu-top-search-form">
                 <label for="q" class="hide-text">问答搜索</label><input type="text" class="zu-top-search-input" id="q" name="q" autocomplete="off" value="$!{keyword}" placeholder="搜索你感兴趣的内容..." role="combobox" aria-autocomplete="list">
                 <button type="submit" class="zu-top-search-button"><span class="hide-text">搜索</span><span class="sprite-global-icon-magnifier-dark"></span></button>
             </form>
