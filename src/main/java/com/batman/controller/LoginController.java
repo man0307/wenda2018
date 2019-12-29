@@ -1,8 +1,5 @@
 package com.batman.controller;
 
-import com.batman.async.EventModel;
-import com.batman.async.EventProducer;
-import com.batman.async.EventType;
 import com.batman.model.HostHolder;
 import com.batman.mq.producer.EventProducerEntrance;
 import com.batman.service.TicketService;
@@ -28,7 +25,6 @@ public class LoginController {
     @Autowired
     TicketService ticketService;
 
-    //如果可以通过拦截器可以获得用户
     @Autowired
     HostHolder hostHolder;
 

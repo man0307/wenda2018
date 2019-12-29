@@ -9,7 +9,8 @@ import com.batman.async.EventModel;
 public interface EventConsumerInfer {
     /**
      * 处理事件的函数
-     * @param context
+     *
+     * @param context 事件本身
      */
-    public void process(EventModel context);
+    void process(EventModel context);
 }

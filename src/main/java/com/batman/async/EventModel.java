@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author yehuo
+ */
 public class EventModel implements Serializable {
 
     private int serialVersionUID = 1;

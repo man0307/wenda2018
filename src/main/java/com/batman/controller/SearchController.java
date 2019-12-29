@@ -1,12 +1,14 @@
 package com.batman.controller;
 
-import com.batman.async.EventProducer;
 import com.batman.model.EntityType;
 import com.batman.model.Question;
 import com.batman.model.User;
 import com.batman.model.ViewObject;
 import com.batman.mq.producer.EventProducerEntrance;
-import com.batman.service.*;
+import com.batman.service.FollowService;
+import com.batman.service.QuestionService;
+import com.batman.service.SeacherService;
+import com.batman.service.UserService;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,7 +63,7 @@ public class SearchController {
                 }
                 vo.set("question", q);
                 User user = userService.selectUserById(q.getUserId());
-                vo.set("followCount", followService.getFollowerCount(q.getId(), EntityType.ENTITY_QUESTION));
+                vo.set("followCount", followService.getFollowerCount(q.getId(), EntityType.ENTITY_QUESTION.getCode()));
                 vo.set("user", user);
                 vos.add(vo);
             }catch (Exception e){
@@ -89,7 +91,7 @@ public class SearchController {
             }
             vo.set("question", question);
             User user = userService.selectUserById(question.getUserId());
-            vo.set("followCount", followService.getFollowerCount(question.getId(), EntityType.ENTITY_QUESTION));
+            vo.set("followCount", followService.getFollowerCount(question.getId(), EntityType.ENTITY_QUESTION.getCode()));
             vo.set("user", user);
             vos.add(vo);
         }

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * @author yehuo
+ */
 @Component
 public class AddQuestionHandler implements EventHandler {
     private List<EventType> eventTypes;

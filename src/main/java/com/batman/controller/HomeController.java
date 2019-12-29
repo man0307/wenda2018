@@ -46,10 +46,10 @@ public class HomeController {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria().andUserIdEqualTo(userId);
         vo.set("commentCount", commentService.countByExample(commentExample));
-        vo.set("followerCount", followService.getFollowerCount(userId, EntityType.ENTITY_USER));
-        vo.set("followeeCount", followService.getFolloweeCount(userId, EntityType.ENTITY_USER));
+        vo.set("followerCount", followService.getFollowerCount(userId, EntityType.ENTITY_USER.getCode()));
+        vo.set("followeeCount", followService.getFolloweeCount(userId, EntityType.ENTITY_USER.getCode()));
         if (hostHolder.get() != null) {
-            vo.set("followed", followService.isFollower(hostHolder.get().getId(), userId, EntityType.ENTITY_USER));
+            vo.set("followed", followService.isFollower(hostHolder.get().getId(), userId, EntityType.ENTITY_USER.getCode()));
         } else {
             vo.set("followed", false);
         }
@@ -84,7 +84,7 @@ public class HomeController {
                 question.setContent(question.getContent().trim().substring(0, 200));
             vo.set("question", question);
             User user = userService.selectUserById(list.get(i).getUserId());
-            vo.set("followCount", followService.getFollowerCount(list.get(i).getId(), EntityType.ENTITY_QUESTION));
+            vo.set("followCount", followService.getFollowerCount(list.get(i).getId(), EntityType.ENTITY_QUESTION.getCode()));
             vo.set("user", user);
             vos.add(vo);
         }

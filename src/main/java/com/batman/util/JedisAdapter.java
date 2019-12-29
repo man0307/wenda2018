@@ -28,16 +28,10 @@ public class JedisAdapter implements InitializingBean {
 
     //点赞点踩的功能用set即可
     public void sadd(String key, String value) {
-        Jedis jedis = null;
-        try {
-            jedis = pool.getResource();
+        try (Jedis jedis = pool.getResource()) {
             jedis.sadd(key, value);
         } catch (Exception e) {
             //logger
-        } finally {
-            if (jedis != null) {
-                jedis.close();
-            }
         }
     }
 

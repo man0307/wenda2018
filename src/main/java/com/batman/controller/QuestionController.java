@@ -62,7 +62,7 @@ public class QuestionController {
         //0代表添加成功
         if (code > 0) {
             eventProducerEntrance.fireEvent(new EventModel(EventType.ADD_QUESTION).
-                    setActorId(question.getUserId()).setEntityId(question.getId()).setEntityType(EntityType.ENTITY_QUESTION)
+                    setActorId(question.getUserId()).setEntityId(question.getId()).setEntityType(EntityType.ENTITY_QUESTION.getCode())
                     .setValue("title", question.getTitle()).setValue("content", question.getContent()));
             return WendaUtil.getJSONString(0);
         }
@@ -77,11 +77,11 @@ public class QuestionController {
         User user = userService.selectUserById(question.getUserId());
         model.addAttribute("user", user);
         if (hostHolder.get() != null) {
-            model.addAttribute("followed", followService.isFollower(hostHolder.get().getId(), qid, EntityType.ENTITY_QUESTION));
+            model.addAttribute("followed", followService.isFollower(hostHolder.get().getId(), qid, EntityType.ENTITY_QUESTION.getCode()));
         }
         //得到followUsers
-        Integer len = Integer.valueOf(String.valueOf(followService.getFollowerCount(qid, EntityType.ENTITY_QUESTION)));
-        List<Integer> ids = followService.getFollowers(qid, EntityType.ENTITY_QUESTION, 0, len);
+        Integer len = Integer.valueOf(String.valueOf(followService.getFollowerCount(qid, EntityType.ENTITY_QUESTION.getCode())));
+        List<Integer> ids = followService.getFollowers(qid, EntityType.ENTITY_QUESTION.getCode(), 0, len);
         List<User> followUsers = new ArrayList<>();
         for (int id : ids) {
             User u = userService.selectUserById(id);
@@ -92,7 +92,7 @@ public class QuestionController {
 
         model.addAttribute("followUsers", followUsers);
 
-        List<Comment> commentList = commentService.selectByEntity(qid, EntityType.ENTITY_QUESTION);
+        List<Comment> commentList = commentService.selectByEntity(qid, EntityType.ENTITY_QUESTION.getCode());
         List<ViewObject> comments = new ArrayList<>();
         for (int i = 0; i < commentList.size(); i++) {
             ViewObject vo = new ViewObject();

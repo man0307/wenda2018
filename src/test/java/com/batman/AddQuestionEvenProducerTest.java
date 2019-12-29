@@ -1,5 +1,6 @@
 package com.batman;
 
+import com.batman.WendaApplication;
 import com.batman.async.EventModel;
 import com.batman.async.EventType;
 import com.batman.mq.producer.AddQuestionEvenProducer;
@@ -12,8 +13,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = WendaApplication.class)

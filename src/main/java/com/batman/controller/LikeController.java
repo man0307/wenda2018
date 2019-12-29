@@ -43,7 +43,7 @@ public class LikeController {
             //添加异步的点赞发送邮件功能
             eventProducerEntrance.fireEvent(new EventModel(EventType.LIKE).
                     setActorId(hostHolder.get().getId()).setEntityId(commentId).
-                    setEntityType(EntityType.ENTITY_COMMENT).setEntityOwnerId(comment.getUserId()).
+                    setEntityType(EntityType.ENTITY_COMMENT.getCode()).setEntityOwnerId(comment.getUserId()).
                     setValue("questionId", String.valueOf(comment.getEntityId())));
 
             Long likeCount = likeService.like(user.getId(), comment.getEntityId(), comment.getEntityType());

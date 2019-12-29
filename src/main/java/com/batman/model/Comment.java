@@ -1,65 +1,38 @@
 package com.batman.model;
 
+import lombok.Data;
+
 import java.util.Date;
 
+/**
+ * @author yehuo
+ * <p>
+ * 评论中心的实体类
+ */
+@Data
 public class Comment {
+    /**
+     * id
+     */
     private Integer id;
-
+    /**
+     * 用户ID
+     */
     private Integer userId;
-
+    /**
+     * 创建日期
+     */
     private Date createdDate;
-
+    /**
+     * 实体ID
+     */
     private Integer entityId;
-
+    /**
+     * 实体类型
+     */
     private Integer entityType;
-
+    /**
+     * 评论内容
+     */
     private String content;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Integer getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(Integer entityId) {
-        this.entityId = entityId;
-    }
-
-    public Integer getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(Integer entityType) {
-        this.entityType = entityType;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
 }

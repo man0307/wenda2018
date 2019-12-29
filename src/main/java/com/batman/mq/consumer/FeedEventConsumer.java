@@ -17,8 +17,7 @@ import java.util.*;
 /**
  * @author manchaoyang
  * 2018/11/24
- *
-**/
+ **/
 @Component
 public class FeedEventConsumer implements EventConsumerInfer {
     private List<EventType> eventTypes;
@@ -56,7 +55,7 @@ public class FeedEventConsumer implements EventConsumerInfer {
         info.put("UserHead", user.getHeadUrl());
         info.put("UserName", user.getName());
         if (eventModel.getType() == EventType.COMMENT || (eventModel.getType() == EventType.FOLLOW
-                && eventModel.getEntityType() == EntityType.ENTITY_QUESTION)) {
+                && eventModel.getEntityType().equals(EntityType.ENTITY_QUESTION.getCode()))) {
             if (eventModel.getType() == EventType.COMMENT) {
                 Comment comment = commentService.selectByPrimaryKey(eventModel.getEntityId());
                 if (comment == null) {
@@ -84,7 +83,7 @@ public class FeedEventConsumer implements EventConsumerInfer {
     //timeLine的推模式 根据自己的粉丝 将自己触发的新鲜事通过Redis的list异步队列将事件推出  当用户登录的时候再从队列中读取
     //提高  什么样的用户用推 什么样的用户用拉  完善一下这个功能
     public void doPush(Feed feed, EventModel eventModel) {
-        List<Integer> followers = followService.getFollowers(eventModel.getActorId(), EntityType.ENTITY_USER, 10);
+        List<Integer> followers = followService.getFollowers(eventModel.getActorId(), EntityType.ENTITY_USER.getCode(), 10);
         //如果没有粉丝则不推送
         if (followers == null) {
             return;

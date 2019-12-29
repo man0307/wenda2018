@@ -1,10 +1,13 @@
 package com.batman.model;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+@Data
 public class CommentExample {
     protected String orderByClause;
 

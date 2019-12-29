@@ -23,6 +23,8 @@ import java.util.concurrent.*;
  */
 @Component("eventProducerEntrance")
 public class EventProducerEntrance implements InitializingBean, ApplicationContextAware {
+
+
     private static final Logger logger = LoggerFactory.getLogger(EventProducerEntrance.class);
 
     /**

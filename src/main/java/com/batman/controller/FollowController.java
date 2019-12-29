@@ -49,12 +49,12 @@ public class FollowController {
         }
         //进行关注 成功了就调用异步队列来发送站内信
         User user = hostHolder.get();
-        if (followService.follow(user.getId(), userId, EntityType.ENTITY_USER)) {
+        if (followService.follow(user.getId(), userId, EntityType.ENTITY_USER.getCode())) {
             //关注成功 异步队列发送邮件
             eventProducerEntrance.fireEvent(new EventModel(EventType.FOLLOW).setActorId(user.getId())
-                    .setEntityId(userId).setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
+                    .setEntityId(userId).setEntityType(EntityType.ENTITY_USER.getCode()).setEntityOwnerId(userId));
             //JSON返回当前用户关注的所有人数
-            return WendaUtil.getJSONString(0, String.valueOf(followService.getFolloweeCount(user.getId(), EntityType.ENTITY_USER)));
+            return WendaUtil.getJSONString(0, String.valueOf(followService.getFolloweeCount(user.getId(), EntityType.ENTITY_USER.getCode())));
         }
         return WendaUtil.getJSONString(1, "关注失败");
     }
@@ -69,12 +69,12 @@ public class FollowController {
         }
         //进行关注 成功了就调用异步队列来发送站内信
         User user = hostHolder.get();
-        if (followService.unFollow(user.getId(), userId, EntityType.ENTITY_USER)) {
+        if (followService.unFollow(user.getId(), userId, EntityType.ENTITY_USER.getCode())) {
             //关注成功 异步队列发送邮件
             eventProducerEntrance.fireEvent(new EventModel(EventType.UNFOLLOW).setActorId(user.getId())
-                    .setEntityId(userId).setEntityType(EntityType.ENTITY_USER).setEntityOwnerId(userId));
+                    .setEntityId(userId).setEntityType(EntityType.ENTITY_USER.getCode()).setEntityOwnerId(userId));
             //JSON返回当前用户关注的所有人数
-            return WendaUtil.getJSONString(0, String.valueOf(followService.getFolloweeCount(user.getId(), EntityType.ENTITY_USER)));
+            return WendaUtil.getJSONString(0, String.valueOf(followService.getFolloweeCount(user.getId(), EntityType.ENTITY_USER.getCode())));
         }
         return WendaUtil.getJSONString(1, "取消关注失败");
     }
@@ -94,16 +94,16 @@ public class FollowController {
             return WendaUtil.getJSONString(1, "没有该问题，关注失败");
         }
 
-        Boolean ret = followService.follow(user.getId(), questionId, EntityType.ENTITY_QUESTION);
+        Boolean ret = followService.follow(user.getId(), questionId, EntityType.ENTITY_QUESTION.getCode());
         //关注成功 异步队列发送邮件
         Map<String, Object> info = new HashMap<>();
         info.put("headUrl", user.getHeadUrl());
         info.put("name", user.getName());
         info.put("id", user.getId());
-        info.put("count", followService.getFollowerCount(questionId, EntityType.ENTITY_QUESTION));
+        info.put("count", followService.getFollowerCount(questionId, EntityType.ENTITY_QUESTION.getCode()));
 
         eventProducerEntrance.fireEvent(new EventModel(EventType.FOLLOW).setActorId(user.getId())
-                .setEntityId(questionId).setEntityType(EntityType.ENTITY_QUESTION).setEntityOwnerId(questionId));
+                .setEntityId(questionId).setEntityType(EntityType.ENTITY_QUESTION.getCode()).setEntityOwnerId(questionId));
 
         return WendaUtil.getJSONString(ret ? 0 : 1, info);
     }
@@ -124,15 +124,15 @@ public class FollowController {
         }
 
 
-        if (followService.unFollow(user.getId(), questionId, EntityType.ENTITY_QUESTION)) {
+        if (followService.unFollow(user.getId(), questionId, EntityType.ENTITY_QUESTION.getCode())) {
             Map<String, Object> info = new HashMap<>();
             info.put("headUrl", user.getHeadUrl());
             info.put("name", user.getName());
             info.put("id", user.getId());
-            info.put("count", followService.getFollowerCount(questionId, EntityType.ENTITY_QUESTION));
+            info.put("count", followService.getFollowerCount(questionId, EntityType.ENTITY_QUESTION.getCode()));
             //关注成功 异步队列发送邮件
             eventProducerEntrance.fireEvent(new EventModel(EventType.UNFOLLOW).setActorId(user.getId())
-                    .setEntityId(questionId).setEntityType(EntityType.ENTITY_QUESTION).setEntityOwnerId(questionId));
+                    .setEntityId(questionId).setEntityType(EntityType.ENTITY_QUESTION.getCode()).setEntityOwnerId(questionId));
             return WendaUtil.getJSONString(0, info);
         }
         return WendaUtil.getJSONString(1);
@@ -140,28 +140,28 @@ public class FollowController {
 
     @RequestMapping(path = {"/user/{uid}/followers"}, method = {RequestMethod.GET})
     public String followers(Model model, @PathVariable("uid") int userId) {
-        List<Integer> ids = followService.getFollowers(userId, EntityType.ENTITY_USER, 10);
+        List<Integer> ids = followService.getFollowers(userId, EntityType.ENTITY_USER.getCode(), 10);
         User user = hostHolder.get();
         if (user != null) {
             model.addAttribute("followers", getUsersInfo(user.getId(), ids));
         } else {
             model.addAttribute("followers", getUsersInfo(0, ids));
         }
-        model.addAttribute("followerCount", followService.getFollowerCount(userId, EntityType.ENTITY_USER));
+        model.addAttribute("followerCount", followService.getFollowerCount(userId, EntityType.ENTITY_USER.getCode()));
         model.addAttribute("curUser", userService.selectUserById(userId));
         return "followers";
     }
 
     @RequestMapping(path = {"/user/{uid}/followees"}, method = {RequestMethod.GET})
     public String followees(Model model, @PathVariable("uid") int userId) {
-        List<Integer> ids = followService.getFollowers(userId, EntityType.ENTITY_USER, 10);
+        List<Integer> ids = followService.getFollowers(userId, EntityType.ENTITY_USER.getCode(), 10);
         User user = hostHolder.get();
         if (user != null) {
             model.addAttribute("followees", getUsersInfo(user.getId(), ids));
         } else {
             model.addAttribute("followees", getUsersInfo(0, ids));
         }
-        model.addAttribute("followeeCount", followService.getFolloweeCount(userId, EntityType.ENTITY_USER));
+        model.addAttribute("followeeCount", followService.getFolloweeCount(userId, EntityType.ENTITY_USER.getCode()));
         model.addAttribute("curUser", userService.selectUserById(userId));
         return "followees";
     }
@@ -181,10 +181,10 @@ public class FollowController {
             CommentExample.Criteria criteria = commentExample.createCriteria();
             criteria.andUserIdEqualTo(id);
             vo.set("commentCount", commentService.countByExample(commentExample));
-            vo.set("followerCount", followService.getFollowerCount(id, EntityType.ENTITY_USER));
-            vo.set("followeeCount", followService.getFolloweeCount(id, EntityType.ENTITY_USER));
+            vo.set("followerCount", followService.getFollowerCount(id, EntityType.ENTITY_USER.getCode()));
+            vo.set("followeeCount", followService.getFolloweeCount(id, EntityType.ENTITY_USER.getCode()));
             if (localUserId != 0) {
-                vo.set("followed", followService.isFollower(localUserId, id, EntityType.ENTITY_USER));
+                vo.set("followed", followService.isFollower(localUserId, id, EntityType.ENTITY_USER.getCode()));
             } else {
                 vo.set("followed", false);
             }

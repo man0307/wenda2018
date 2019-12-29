@@ -14,15 +14,16 @@ import org.springframework.stereotype.Component;
  **/
 @EvenTypeAnnotation(values = {EventType.LOGIN})
 @Component("loginExceptionEventProducer")
-public class LoginExceptionEventProducer extends AbstractEventProducer implements RabbitTemplate.ConfirmCallback{
+public class LoginExceptionEventProducer extends AbstractEventProducer implements RabbitTemplate.ConfirmCallback {
+
+
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 构造方法注入rabbitTemplate
      *
-     * @param rabbitTemplate
+     * @param rabbitTemplate rabbitTemplate
      */
-    private RabbitTemplate rabbitTemplate;
-
     @Autowired
     public LoginExceptionEventProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;

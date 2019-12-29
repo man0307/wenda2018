@@ -3,6 +3,7 @@ package com.batman.mq.producer;
 import com.batman.annotation.EvenTypeAnnotation;
 import com.batman.async.EventType;
 import com.batman.config.RabbitMQConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,12 +18,9 @@ import org.springframework.stereotype.Component;
  */
 @EvenTypeAnnotation(values = {EventType.ADD_QUESTION})
 @Component("addQuestionEvenProducer")
+@Slf4j
 public class AddQuestionEvenProducer extends AbstractEventProducer {
-    private static final Logger logger = LoggerFactory.getLogger(AddQuestionEvenProducer.class);
 
-    /**
-     * 因为是不是单例 所以要构造函数注入
-     */
     private RabbitTemplate rabbitTemplate;
     /**
      * 构造方法注入rabbitTemplate

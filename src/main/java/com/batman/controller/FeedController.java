@@ -61,7 +61,7 @@ public class FeedController {
         Integer localUserId = hostHolder.get() == null ? 0 : hostHolder.get().getId();
         List<Integer> ids = new ArrayList<>();
         if (localUserId != 0) {
-            ids = followService.getFollowees(localUserId, EntityType.ENTITY_USER, Integer.MAX_VALUE);
+            ids = followService.getFollowees(localUserId, EntityType.ENTITY_USER.getCode(), Integer.MAX_VALUE);
         }
         List<Feed> feeds = feedService.selectUserFeeds(Integer.MAX_VALUE, ids, 10);
         model.addAttribute("feeds", feeds);

@@ -45,7 +45,7 @@ public class CommentController {
         comment.setContent(content);
         comment.setEntityId(questionId);
         comment.setCreatedDate(new Date());
-        comment.setEntityType(EntityType.ENTITY_QUESTION);
+        comment.setEntityType(EntityType.ENTITY_QUESTION.getCode());
         comment.setUserId(hostHolder.get().getId());
         commentService.insert(comment);
         //增加评论后要更新 评论数
@@ -55,12 +55,12 @@ public class CommentController {
         CommentExample.Criteria criteria = commentExample.createCriteria();
         //构造自定义查询条件
         criteria.andEntityIdEqualTo(questionId);
-        criteria.andEntityTypeEqualTo(EntityType.ENTITY_QUESTION);
+        criteria.andEntityTypeEqualTo(EntityType.ENTITY_QUESTION.getCode());
         question.setCommentCount(commentService.countByExample(commentExample));
 
         eventProducerEntrance.fireEvent(new EventModel(EventType.COMMENT)
                 .setActorId(hostHolder.get().getId())
-                .setEntityType(EntityType.ENTITY_COMMENT).setEntityId(comment.getId())
+                .setEntityType(EntityType.ENTITY_COMMENT.getCode()).setEntityId(comment.getId())
                 .setEntityOwnerId(question.getId()));
         //产生一步事件 推拉模式生成timeline
         questionService.updateByPrimaryKeyWithBLOBs(question);

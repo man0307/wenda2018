@@ -1,6 +1,9 @@
-com\nowcoder\Producer.class
-com\nowcoder\Customer.class
-com\nowcoder\MultiThreadTest.class
-com\nowcoder\WendaApplicationTests.class
-com\nowcoder\InitDatabaseTests.class
-com\nowcoder\MultiThreadTest$1.class
+com/batman/Producer.class
+com/batman/PageHelperTest.class
+com/batman/MultiThreadTest$1.class
+com/batman/InitDatabaseTests.class
+com/batman/MultiThreadTest.class
+com/batman/AddQuestionEvenProducerTest.class
+com/batman/Customer.class
+com/batman/EventProducterEntranceTest.class
+com/batman/WendaApplicationTests.class

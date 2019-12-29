@@ -1,10 +1,25 @@
 package com.batman.model;
 
+import lombok.Data;
+
 /**
- * Created by manchaoyang on 2016/7/9.
+ *
+ * @author manchaoyang
+ * @date 2016/7/9
  */
-public class EntityType {
-    public static int ENTITY_QUESTION = 1;
-    public static int ENTITY_COMMENT = 2;
-    public static int ENTITY_USER = 3;
+public enum EntityType {
+
+    ENTITY_QUESTION(1),
+    ENTITY_COMMENT(2),
+    ENTITY_USER(3);
+
+    private int code;
+
+    EntityType(int code) {
+        this.code = code;
+    }
+
+    public int getCode() {
+        return this.code;
+    }
 }

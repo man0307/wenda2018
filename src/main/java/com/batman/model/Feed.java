@@ -1,64 +1,40 @@
 package com.batman.model;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * @author yehuo
+ */
+@Data
 public class Feed {
+
     private Integer id;
 
+    /**
+     * 创建日期
+     */
     private Date createdDate;
 
+    /**
+     * 用户ID
+     */
     private Integer userId;
 
-    //JSON存储各种字段
+    /**
+     * JSON格式的数据
+     */
     private String data;
-
+    /**
+     * 类型
+     */
     private Integer type;
 
-    private JSONObject jsonObject=null;
-    public Integer getId() {
-        return id;
-    }
+    private JSONObject jsonObject = null;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data == null ? null : data.trim();
-        jsonObject=JSONObject.parseObject(data);
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public String get(String key){
-        return jsonObject==null?null:jsonObject.getString(key);
+    public String get(String key) {
+        return jsonObject == null ? null : jsonObject.getString(key);
     }
 }

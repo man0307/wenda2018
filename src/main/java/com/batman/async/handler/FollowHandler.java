@@ -38,19 +38,19 @@ public class FollowHandler implements EventHandler {
         message.setConversationId(message.getConversationId());
         message.setHasRead(0);
         message.setCreatedDate(new Date());
-        if (eventModel.getType() == EventType.FOLLOW) {
-            if (eventModel.getEntityType() == EntityType.ENTITY_QUESTION) {
+        if (eventModel.getType().equals(EventType.FOLLOW)) {
+            if (eventModel.getEntityType().equals(EntityType.ENTITY_QUESTION.getCode())) {
                 message.setContent(userService.selectUserById(eventModel.getActorId()).getName() +
                         "关注了你的问题/n详情请见http://localhost:8080/question/" + eventModel.getValue("questionId"));
-            } else if (eventModel.getEntityType() == EntityType.ENTITY_USER) {
+            } else if (eventModel.getEntityType().equals(EntityType.ENTITY_USER.getCode())) {
                 message.setContent(userService.selectUserById(eventModel.getActorId()).getName() +
                         "关注了你");
             }
-        }else if(eventModel.getType() == EventType.UNFOLLOW){
-            if (eventModel.getEntityType() == EntityType.ENTITY_QUESTION) {
+        } else if (eventModel.getType().equals(EventType.UNFOLLOW)) {
+            if (eventModel.getEntityType().equals(EntityType.ENTITY_QUESTION.getCode())) {
                 message.setContent(userService.selectUserById(eventModel.getActorId()).getName() +
                         "取消关注你的问题/n详情请见http://localhost:8080/question/" + eventModel.getValue("questionId"));
-            } else if (eventModel.getEntityType() == EntityType.ENTITY_USER) {
+            } else if (eventModel.getEntityType().equals(EntityType.ENTITY_USER.getCode())) {
                 message.setContent(userService.selectUserById(eventModel.getActorId()).getName() +
                         "取消关注你");
             }
