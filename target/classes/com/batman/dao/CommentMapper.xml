@@ -106,7 +106,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -209,11 +209,11 @@
   <update id="updateByExampleWithBLOBs" parameterType="map" >
     update comment
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      created_date = #{record.createdDate,jdbcType=DATE},
-      entity_id = #{record.entityId,jdbcType=INTEGER},
-      entity_type = #{record.entityType,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=LONGVARCHAR}
+    user_id = #{record.userId,jdbcType=INTEGER},
+    created_date = #{record.createdDate,jdbcType=DATE},
+    entity_id = #{record.entityId,jdbcType=INTEGER},
+    entity_type = #{record.entityType,jdbcType=INTEGER},
+    content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -221,10 +221,10 @@
   <update id="updateByExample" parameterType="map" >
     update comment
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      created_date = #{record.createdDate,jdbcType=DATE},
-      entity_id = #{record.entityId,jdbcType=INTEGER},
-      entity_type = #{record.entityType,jdbcType=INTEGER}
+    user_id = #{record.userId,jdbcType=INTEGER},
+    created_date = #{record.createdDate,jdbcType=DATE},
+    entity_id = #{record.entityId,jdbcType=INTEGER},
+    entity_type = #{record.entityType,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>

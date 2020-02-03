@@ -76,42 +76,19 @@ public class HomeController {
         //mybatis分页算法
         List<Question> list = questionService.selectByLimit(userId, offset, limit);
         List<ViewObject> vos = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
+        for (Question value : list) {
             ViewObject vo = new ViewObject();
-            Question question = list.get(i);
             //如果描述过长 使列表中的问题描述不全部展开
-            if (question.getContent().length() > 200)
-                question.setContent(question.getContent().trim().substring(0, 200));
-            vo.set("question", question);
-            User user = userService.selectUserById(list.get(i).getUserId());
-            vo.set("followCount", followService.getFollowerCount(list.get(i).getId(), EntityType.ENTITY_QUESTION.getCode()));
+            if (value.getContent().length() > 200) {
+                value.setContent(value.getContent().trim().substring(0, 200));
+            }
+            vo.set("question", value);
+            User user = userService.selectUserById(value.getUserId());
+            vo.set("followCount", followService.getFollowerCount(value.getId(), EntityType.ENTITY_QUESTION.getCode()));
             vo.set("user", user);
             vos.add(vo);
         }
         return vos;
     }
 
-
-//    @RequestMapping(value = "/createDate")
-//    public  @ResponseBody  String  contextLoads() {
-//        Random random = new Random();
-//        for (int i = 1; i < 12; ++i) {
-//            User user = new User();
-//            user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png", random.nextInt(1000)));
-//            user.setName(String.format("user%d", i));
-//            user.setSalt(UUID.randomUUID().toString().replaceAll("-","").substring(0,5));
-//            user.setPassword("123");
-//            userService.addUser(user);
-//            Question question = new Question();
-//            question.setCommentCount(i);
-//            Date date = new Date();
-//            date.setTime(date.getTime() + 1000 * 3600 * 5 * i);
-//            question.setCreatedDate(date);
-//            question.setUserId(i);
-//            question.setTitle(String.format("题目{%d}", i));
-//            question.setContent(String.format("Balaababalalalal 简介 %d", i));
-//            questionMapper.insert(question);
-//        }
-//        return "sucess";
-//    }
 }

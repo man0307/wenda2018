@@ -26,7 +26,8 @@ public class LogAspect {
                 sb.append("arg:" + arg.toString() + "|");
             }
         }
-        logger.info("before method:" + sb.toString());
+
+        logger.info("before method:"+joinPoint.getSignature());
     }
 
     @After("execution(* com.batman.controller.*Controller.*(..))")

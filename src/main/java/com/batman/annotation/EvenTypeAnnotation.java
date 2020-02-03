@@ -15,6 +15,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface EvenTypeAnnotation {
-
-    public EventType[] values();
+    EventType[] values();
 }

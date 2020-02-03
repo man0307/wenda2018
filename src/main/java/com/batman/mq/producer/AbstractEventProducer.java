@@ -2,12 +2,11 @@ package com.batman.mq.producer;
 
 import com.batman.async.EventModel;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +19,10 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 @Slf4j
 abstract class AbstractEventProducer implements RabbitTemplate.ConfirmCallback {
+    /**
+     * 重试次数
+     */
+    private static final int TRY_TIMES = 3;
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -36,14 +39,14 @@ abstract class AbstractEventProducer implements RabbitTemplate.ConfirmCallback {
 
     /**
      * 保证缓存的线程安全
-     * todo 想让内存打爆么少年 换称redis
+     * todo改为使用redis做缓存
      */
     private Map<String, EventModel> eventCacheMap = new ConcurrentHashMap<>(MAX_CACHE_NUMBER);
 
     /**
      * fifo队列 阻塞队列和ConcurrentHashMap共同实现线程安全的FIFO缓存淘汰
      */
-    private ArrayBlockingQueue<String> sequenceFIFOQueue = new ArrayBlockingQueue<String>(MAX_CACHE_NUMBER);
+    private ArrayBlockingQueue<String> sequenceFifoQueue = new ArrayBlockingQueue<String>(MAX_CACHE_NUMBER);
 
     /**
      * 获取实现类的路由键信息
@@ -66,10 +69,14 @@ abstract class AbstractEventProducer implements RabbitTemplate.ConfirmCallback {
      * @param eventModel 事件实体
      */
     public void sendEvent(EventModel eventModel) {
+        if (Objects.isNull(eventModel)) {
+            log.error("sendEvent error,EventModel is null");
+            throw new IllegalArgumentException("eventModel is null");
+        }
         RabbitTemplate rabbitTemplate = getRabbitTemplate();
         CorrelationData correlation = new CorrelationData(UUID.randomUUID().toString());
         log.info("发送事件：" + eventModel);
-        //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
+        //发消息
         rabbitTemplate.convertAndSend(getExchangeName(),
                 getRoutingKey(),
                 eventModel,
@@ -84,10 +91,14 @@ abstract class AbstractEventProducer implements RabbitTemplate.ConfirmCallback {
      * @param correlationId 关联ID
      * @param eventModel    事件实体
      */
-    public void sendEvent(String correlationId, EventModel eventModel) {
+    public void resendEvent(String correlationId, EventModel eventModel) {
+        if (Objects.isNull(correlationId) || Objects.isNull(eventModel)) {
+            log.error("resendEvent error,correlationId is null or eventModel is null correlationId={}", correlationId);
+            throw new IllegalArgumentException("resendEvent error,correlationId is null or eventModel is null");
+
+        }
         RabbitTemplate rabbitTemplate = getRabbitTemplate();
         CorrelationData correlation = new CorrelationData(correlationId);
-        //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
         rabbitTemplate.convertAndSend(getExchangeName(),
                 getRoutingKey(),
                 eventModel,
@@ -100,16 +111,16 @@ abstract class AbstractEventProducer implements RabbitTemplate.ConfirmCallback {
     /**
      * 添加缓存
      *
-     * @param correlationId
-     * @param eventModel
-     * @return
+     * @param correlationId 消息ID
+     * @param eventModel    消息体
+     * @return 是否添加缓存成功
      */
     public boolean addEventCache(String correlationId, EventModel eventModel) {
         //如果队列是满的 那么无论此时其他线程是插入还是删除操作
         // 当前线程执行 操作（删除&插入） 并没有问题 只是有小概率的情况下队列被清空了 阻塞队列取不到数据抛出异常
         if (nowCount.get() == MAX_CACHE_NUMBER) {
             try {
-                String key = sequenceFIFOQueue.take();
+                String key = sequenceFifoQueue.take();
                 eventCacheMap.remove(key);
             } catch (InterruptedException e) {
                 log.error("sequenceFIFOQueue is empty");
@@ -120,7 +131,7 @@ abstract class AbstractEventProducer implements RabbitTemplate.ConfirmCallback {
             if (lock.tryLock()) {
                 try {
                     if (nowCount.incrementAndGet() <= MAX_CACHE_NUMBER) {
-                        sequenceFIFOQueue.offer(correlationId);
+                        sequenceFifoQueue.offer(correlationId);
                         eventCacheMap.put(correlationId, eventModel);
                     } else {
                         nowCount.decrementAndGet();
@@ -174,11 +185,11 @@ abstract class AbstractEventProducer implements RabbitTemplate.ConfirmCallback {
         } else {
             EventModel event = getEventModel(correlationData.getId());
             if (null != event) {
-                if (event.getResendCount() >= 3) {
+                if (event.getResendCount() >= TRY_TIMES) {
                     log.error("该消息发送失败:" + event.toString());
                 } else {
                     event.setResendCount(event.getResendCount() + 1);
-                    sendEvent(correlationData.getId(), event);
+                    resendEvent(correlationData.getId(), event);
                 }
             }
             log.info("重新发送消息:" + correlationData.getId());

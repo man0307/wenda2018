@@ -18,12 +18,12 @@ public class JedisAdapter implements InitializingBean {
 
     //初始化redis连接池
     public JedisAdapter() {
-        pool = new JedisPool("120.78.172.126", 6379);
+        pool = new JedisPool("127.0.0.1", 6379);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        pool = new JedisPool("120.78.172.126", 6379);
+        pool = new JedisPool("127.0.0.1", 6379);
     }
 
     //点赞点踩的功能用set即可

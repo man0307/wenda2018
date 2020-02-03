@@ -16,7 +16,7 @@
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
           <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
+            <foreach collection="criteria" item="criterion" >
               <choose >
                 <when test="criterion.noValue" >
                   and ${criterion.condition}
@@ -42,10 +42,10 @@
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
     <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+      <foreach collection="example" item="criteria" separator="or" >
         <if test="criteria.valid" >
           <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
+            <foreach collection="criteria" item="criterion" >
               <choose >
                 <when test="criterion.noValue" >
                   and ${criterion.condition}

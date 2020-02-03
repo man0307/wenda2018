@@ -5,6 +5,7 @@ import com.batman.async.EventType;
 import com.batman.config.RabbitMQConfig;
 import com.batman.model.HostHolder;
 import com.batman.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,31 +17,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author yehuo
+ */
 @Component
+@Slf4j
 public class AddQuestionEventConsumer implements EventConsumerInfer {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private List<EventType> eventTypes;
-    @Autowired
-    CommentService commentService;
-
-    @Autowired
-    MassageService messageService;
-
-    @Autowired
-    FollowService followService;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    HostHolder hostHolder;
-
-    @Autowired
-    FeedService feedService;
-
-    @Autowired
-    QuestionService questionService;
 
     @Autowired
     SeacherService seacherService;
@@ -53,10 +36,10 @@ public class AddQuestionEventConsumer implements EventConsumerInfer {
             seacherService.indexQuestion(eventModel.getEntityId()
                     , eventModel.getValue("title"), eventModel.getValue("content"));
         } catch (SolrServerException e) {
-            logger.error("SolrServerException" + e.getMessage());
+            log.error("SolrServerException" + e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
             e.printStackTrace();
         }
     }

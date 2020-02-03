@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author yehuo
+ */
 @Service
 public class SeacherService {
+
     private static final String SOLR_URL = "http://120.78.172.126:8983/solr/core1";
 
     private HttpSolrClient client = new HttpSolrClient.Builder(SOLR_URL).build();

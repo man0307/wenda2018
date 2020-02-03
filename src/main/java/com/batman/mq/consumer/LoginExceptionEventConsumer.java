@@ -1,8 +1,6 @@
 package com.batman.mq.consumer;
 
-import com.batman.annotation.EvenTypeAnnotation;
 import com.batman.async.EventModel;
-import com.batman.async.EventType;
 import com.batman.config.RabbitMQConfig;
 import com.batman.util.MailSender;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
